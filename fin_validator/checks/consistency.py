@@ -1,9 +1,9 @@
 """
-lseg_validator.checks.consistency — consistency checks for LSEG DataFrames.
+fin_validator.checks.consistency — consistency checks for financial DataFrames.
 
 Detects:
 - Columns that are numeric in intent but stored as strings (type mismatches).
-- Malformed LSEG timestamps (non-parseable date strings).
+- Malformed timestamps (non-parseable date strings).
 - RIC codes that do not match the expected format (alphanumeric + '.' + suffix).
 - Duplicate rows.
 
@@ -87,7 +87,7 @@ def invalid_ric_rows(df: pd.DataFrame, ric_col: str = "RIC") -> pd.Index:
     """Return the index of rows whose RIC code does not match the expected format.
 
     Expected format: alphanumeric characters, a single dot, then 1-4 uppercase
-    letters (e.g. ``MSFT.O``, ``LSEG.L``).
+    letters (e.g. ``MSFT.O``, ``VOD.L``).
 
     Parameters
     ----------

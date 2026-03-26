@@ -1,12 +1,12 @@
 """
-lseg_validator.report — DataQualityReport: the main public API class.
+fin_validator.report — DataQualityReport: the main public API class.
 
 Composes all check modules (completeness, consistency, anomaly) into a
 single report object with human-readable summary and structured dict output.
 
 Example::
 
-    from lseg_validator import DataQualityReport
+    from fin_validator import DataQualityReport
     report = DataQualityReport(df)
     report.summary()       # prints coloured terminal summary
     report.to_dict()       # returns structured dict for programmatic use
@@ -21,7 +21,7 @@ from pathlib import Path
 import pandas as pd
 from jinja2 import Environment, FileSystemLoader
 
-from lseg_validator.checks import anomaly, completeness, consistency
+from fin_validator.checks import anomaly, completeness, consistency
 
 
 class DataQualityReport:
@@ -30,7 +30,7 @@ class DataQualityReport:
     Parameters
     ----------
     df:
-        DataFrame to analyse (typically returned by an lseg-data API call).
+        DataFrame to analyse.
     timestamp_col:
         Name of the timestamp column.  Auto-detected if *None*.
     ric_col:
@@ -93,7 +93,7 @@ class DataQualityReport:
         """Print a human-readable quality summary to stdout."""
         r = self._run()
 
-        print("\n=== LSEG Data Quality Report ===\n")
+        print("\n=== Financial Data Quality Report ===\n")
 
         print("── Completeness ──")
         for col, rate in r["completeness"]["null_rate_per_column"].items():

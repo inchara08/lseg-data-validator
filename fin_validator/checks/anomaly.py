@@ -1,5 +1,5 @@
 """
-lseg_validator.checks.anomaly — anomaly detection for LSEG DataFrames.
+fin_validator.checks.anomaly — anomaly detection for financial DataFrames.
 
 Detects:
 - Z-score outliers per numeric column (default threshold: |z| > 3).

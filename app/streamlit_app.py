@@ -1,7 +1,7 @@
 """
-app/streamlit_app.py — Streamlit web UI for lseg-data-validator.
+app/streamlit_app.py — Streamlit web UI for fin-data-validator.
 
-This module is intentionally thin: all business logic lives in lseg_validator/.
+This module is intentionally thin: all business logic lives in fin_validator/.
 This file only handles file upload, rendering, and layout.
 
 Run with::
@@ -17,12 +17,12 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
-from lseg_validator import DataQualityReport
-from lseg_validator.checks.schema_diff import run_all as schema_diff
+from fin_validator import DataQualityReport
+from fin_validator.checks.schema_diff import run_all as schema_diff
 
-st.set_page_config(page_title="LSEG Data Validator", layout="wide")
-st.title("LSEG Data Validator")
-st.caption("Drag-and-drop your LSEG CSV snapshot to run quality checks instantly.")
+st.set_page_config(page_title="Financial Data Validator", layout="wide")
+st.title("Financial Data Validator")
+st.caption("Drag-and-drop your CSV snapshot to run quality checks instantly. Tested with LSEG Data Library outputs.")
 
 
 def _load(uploaded) -> pd.DataFrame:
@@ -53,7 +53,7 @@ results = report.to_dict()
 
 st.subheader(f"Dataset: `{file_a.name}` — {df.shape[0]:,} rows × {df.shape[1]} columns")
 
-# ── LSEG field detection banner ───────────────────────────────────────────────
+# ── Field detection banner ────────────────────────────────────────────────────
 _ts_pattern = _re.compile(r"time|date|timestamp", _re.IGNORECASE)
 _ric_detected = "RIC" if "RIC" in df.columns else next(
     (c for c in df.columns if c.upper() == "RIC"), None
@@ -282,6 +282,6 @@ html = report.to_html()
 st.download_button(
     label="Download HTML Report",
     data=html.encode(),
-    file_name="lseg_quality_report.html",
+    file_name="financial_quality_report.html",
     mime="text/html",
 )

@@ -1,5 +1,5 @@
 """
-lseg_validator.checks — individual quality check modules.
+fin_validator.checks — individual quality check modules.
 
 Each module is self-contained: it accepts a pandas DataFrame and returns
 a typed dict.  Modules never import from each other; report.py composes them.

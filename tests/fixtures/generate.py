@@ -4,8 +4,7 @@ tests/fixtures/generate.py — synthetic LSEG-shaped DataFrame generator.
 Mimics data returned by ``lseg.data.get_history()`` for a multi-instrument
 daily OHLCV + fundamentals query, then reshaped to long format with a ``RIC``
 column.  Field names, RIC codes, value ranges, and data quality patterns are
-derived from real LSEG Data Library for Python API responses documented at
-https://developers.lseg.com/en/api-catalog/refinitiv-data-platform/refinitiv-data-library-for-python
+derived from real LSEG Data Library for Python API responses.
 
 Field naming conventions
 ------------------------
@@ -58,7 +57,7 @@ _INSTRUMENTS: dict[str, tuple[float, int, float, float, float]] = {
     "AMZN.O":  (188.90,  46_000_000,  0.98, 0.00, 60.3),
     "TSLA.O":  (219.90, 108_000_000,  0.71, 0.00, 62.1),
     "LSEG.L":  (9840.0,   1_150_000, 134.2, 1.18, 73.4),
-    "BP.L":    ( 492.5,  17_500_000,  52.1, 4.82,  9.5),
+    "BP.L":    ( 492.5,  17_500_000, 52.10, 4.82,  9.5),
     "SHEL.L":  (2658.0,   8_800_000, 230.5, 3.91, 11.5),
     "AZN.L":   (10750.0,  3_800_000, 412.3, 2.08, 26.2),
 }
@@ -92,8 +91,8 @@ def _eps_series(
 ) -> np.ndarray:
     """Return a sparse EPS array — non-null only on earnings announcement dates.
 
-    In real LSEG data TR.EPS is a point-in-time field populated only when an
-    earnings announcement occurs; all other dates carry ``NaN``.
+    TR.EPS is a point-in-time field populated only when an earnings
+    announcement occurs; all other dates carry ``NaN``.
     """
     eps = np.full(n, np.nan)
     for offset in range(0, n, earnings_cycle):
@@ -110,7 +109,7 @@ def _base_df(n_per_ric: int = _N_PER_RIC, seed: int = SEED) -> pd.DataFrame:
     """
     rng = np.random.default_rng(seed)
 
-    # Business-day timestamps matching get_history() index format
+    # Business-day timestamps
     dates = pd.date_range("2024-01-02", periods=n_per_ric, freq="B")
     date_strs = dates.strftime("%Y-%m-%d %H:%M:%S")
 
@@ -185,10 +184,6 @@ def _base_df(n_per_ric: int = _N_PER_RIC, seed: int = SEED) -> pd.DataFrame:
 def make_clean_df(n_per_ric: int = _N_PER_RIC, seed: int = SEED) -> pd.DataFrame:
     """Return a clean LSEG-shaped DataFrame with no quality issues.
 
-    Mimics the output of ``lseg.data.get_history()`` reshaped to long format.
-    Columns follow real LSEG field naming conventions (TR.*, CF_*, real-time
-    pricing fields).
-
     Parameters
     ----------
     n_per_ric:
@@ -207,7 +202,7 @@ def make_clean_df(n_per_ric: int = _N_PER_RIC, seed: int = SEED) -> pd.DataFrame
 def make_dirty_df(n_per_ric: int = _N_PER_RIC, seed: int = SEED) -> pd.DataFrame:
     """Return a dirty LSEG-shaped DataFrame with injected quality issues.
 
-    Issues mirror real-world LSEG data quality problems:
+    Issues:
 
     1. **Sparse nulls in TR.EPS** — naturally null between earnings dates
        (already present in base data; no additional injection needed).
@@ -217,7 +212,7 @@ def make_dirty_df(n_per_ric: int = _N_PER_RIC, seed: int = SEED) -> pd.DataFrame
        data-error events (value ~8–12× the instrument mean).
     4. **ACVOL_UNS type mismatch** — 3 rows have volume stored as a formatted
        string (e.g. ``"12,345,678"``) rather than an integer, a common artefact
-       of CSV exports from the Eikon terminal.
+       of CSV exports from terminal applications.
     5. **2 malformed Date values** — ``"N/A"`` and an empty string, mimicking
        timestamp parse failures in the delivery pipeline.
     6. **2 invalid RIC codes** — missing exchange suffix (e.g. ``"AAPL"``),

@@ -1,27 +1,30 @@
-# lseg-data-validator — Project Spec
+# fin-data-validator — Project Spec
 
 ## Purpose
-A free, open-source data quality toolkit purpose-built for developers using the
-LSEG Data Library for Python (`lseg-data`). It takes a pandas DataFrame returned
-by any `lseg-data` API call and produces a rich quality report: null rates, type
-inference, anomaly detection, and schema drift between two time periods.
+A free, open-source data quality toolkit for financial market data. It takes a
+pandas DataFrame and produces a rich quality report: null rates, type inference,
+anomaly detection, and schema drift between two time periods.
 
-Target audience: quant developers, financial coders, and data scientists who use
-LSEG Workspace / RDP APIs and want fast confidence checks on the data they pull.
+Designed and tested against LSEG Data Library for Python (`lseg-data`) outputs,
+but works with any tabular financial data.
+
+Target audience: quant developers, financial data engineers, and data scientists
+who work with market data — especially those using LSEG Workspace, RDP, or Eikon —
+and want fast confidence checks on the data they pull.
 
 ---
 
 ## Core Features (MVP — 1-2 weeks)
 
-### 1. CLI tool (`lseg-validator`)
-- `lseg-validator check <file.csv>` — run quality checks on a CSV/parquet snapshot
-- `lseg-validator diff <file_a.csv> <file_b.csv>` — compare two snapshots for schema drift
-- `lseg-validator report <file.csv> --output report.html` — generate standalone HTML report
+### 1. CLI tool (`fin-validator`)
+- `fin-validator check <file.csv>` — run quality checks on a CSV/parquet snapshot
+- `fin-validator diff <file_a.csv> <file_b.csv>` — compare two snapshots for schema drift
+- `fin-validator report <file.csv> --output report.html` — generate standalone HTML report
 - Outputs: coloured terminal summary + optional HTML report
 
 ### 2. Python API (importable)
 ```python
-from lseg_validator import DataQualityReport
+from fin_validator import DataQualityReport
 report = DataQualityReport(df)
 report.summary()       # prints to terminal
 report.to_html()       # returns HTML string
@@ -30,7 +33,7 @@ report.to_dict()       # returns structured dict for programmatic use
 
 ### 3. Streamlit Web UI (`streamlit run app.py`)
 - Drag-and-drop CSV/parquet upload
-- Auto-detect LSEG field naming conventions (TR.* fields, RIC codes, timestamps)
+- Auto-detect field naming conventions (TR.* fields, RIC codes, timestamps)
 - Visual null heatmap (seaborn or plotly)
 - Field distribution charts (histogram per numeric column)
 - Anomaly flags table (Z-score > 3 or IQR outliers, per column)
@@ -48,7 +51,7 @@ report.to_dict()       # returns structured dict for programmatic use
 
 ### Consistency
 - Type inference — detect columns that are numeric but stored as strings
-- Date/timestamp parsing — detect malformed LSEG timestamps
+- Date/timestamp parsing — detect malformed timestamps
 - RIC code format validation (basic regex: alphanumeric + `.` + exchange suffix)
 - Duplicate row detection
 
@@ -77,28 +80,19 @@ report.to_dict()       # returns structured dict for programmatic use
 - pytest — tests
 - black + ruff — formatting/linting
 
-No LSEG credentials required to run — works on any pandas DataFrame or CSV file.
-Include sample data fixtures from LSEG's public GitHub examples for demo/testing.
-
----
-
-## Sample Data Strategy (no credentials needed)
-Pull sample CSV fixtures from LSEG's public GitHub:
-- https://github.com/LSEG-API-Samples/Example.DataLibrary.Python
-Use these as test fixtures AND as demo data in the Streamlit app.
-Synthetic data generator for CI: generate realistic LSEG-shaped DataFrames
-with known quality issues injected (nulls, outliers, type mismatches).
+No credentials required — works on any pandas DataFrame or CSV file.
+Includes a synthetic data generator for CI: generates realistic financial
+DataFrames with known quality issues injected (nulls, outliers, type mismatches).
 
 ---
 
 ## Project Structure
 ```
-lseg-data-validator/
-├── CLAUDE.md
+fin-data-validator/
 ├── SPEC.md
-├── README.md                  ← primary visibility asset
+├── README.md
 ├── pyproject.toml
-├── lseg_validator/
+├── fin_validator/
 │   ├── __init__.py
 │   ├── checks/
 │   │   ├── completeness.py
@@ -112,12 +106,12 @@ lseg-data-validator/
 ├── app/
 │   └── streamlit_app.py       ← Streamlit UI
 ├── tests/
-│   ├── fixtures/              ← sample CSVs from LSEG public GitHub
+│   ├── fixtures/              ← synthetic financial CSVs
 │   ├── test_completeness.py
 │   ├── test_anomaly.py
 │   └── test_schema_diff.py
 └── docs/
-    └── lseg-field-reference.md ← TR.* field naming conventions doc
+    └── field-reference.md     ← TR.* field naming conventions doc
 ```
 
 ---
@@ -144,31 +138,5 @@ lseg-data-validator/
 - Download report button
 
 ### Phase 4 — Polish + Launch (Days 10–14)
-- README with LSEG-specific framing, badges, screenshots/GIF
+- README with clear framing, badges, screenshots/GIF
 - Deploy Streamlit app to Streamlit Cloud (free)
-- Post to LSEG developer community forum
-- LinkedIn post series (3 posts)
-
----
-
-## README Strategy (visibility)
-The README is a primary SEO + community asset. It must:
-- Open with the exact problem statement LSEG devs hit ("You pulled data from RDP.
-  Is it actually clean?")
-- Show a 2-minute demo GIF at the top
-- Include a "Works with" section listing lseg-data sessions:
-  Desktop, Platform, CodeBook, Workspace
-- Include sample output showing real LSEG field names (TR.PriceClose, RIC, etc.)
-- Link to LSEG Developer Community and their GitHub org
-
----
-
-## LinkedIn Post Plan
-Post 1 (Day 1): "I spent a week reading the LSEG developer forums. Here's the
-#1 pain point I found that nobody has solved yet." (hook post, no code yet)
-
-Post 2 (Day 7): "Here's what I built to solve it — first look at
-lseg-data-validator." (show the Streamlit UI, share GitHub link)
-
-Post 3 (Day 14): "Lessons learned building a dev tool for the LSEG ecosystem
-from scratch, with no credentials." (technical storytelling, tags LSEG)

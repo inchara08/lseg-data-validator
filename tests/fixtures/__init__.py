@@ -1,1 +1,1 @@
-"""Test fixtures for lseg-data-validator."""
+"""Test fixtures for fin-data-validator."""

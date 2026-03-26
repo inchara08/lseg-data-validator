@@ -1,5 +1,5 @@
 """
-tests/test_completeness.py — tests for lseg_validator.checks.completeness.
+tests/test_completeness.py — tests for fin_validator.checks.completeness.
 
 All tests run against the dirty fixture (which has known injected issues):
 - ~15 % nulls in BID and ASK (liquidity / after-hours gaps)
@@ -24,7 +24,7 @@ import pytest
 # Make the package importable without installing it
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from lseg_validator.checks.completeness import (
+from fin_validator.checks.completeness import (
     flag_null_severity,
     null_rate_over_time,
     null_rate_per_column,

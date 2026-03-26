@@ -1,5 +1,5 @@
 """
-tests/test_schema_diff.py — tests for lseg_validator.checks.schema_diff.
+tests/test_schema_diff.py — tests for fin_validator.checks.schema_diff.
 
 Covers:
 - added_columns / removed_columns
@@ -20,7 +20,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from lseg_validator.checks.schema_diff import (
+from fin_validator.checks.schema_diff import (
     added_columns,
     dtype_changes,
     null_rate_delta,

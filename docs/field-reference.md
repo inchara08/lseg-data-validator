@@ -1,9 +1,11 @@
-# LSEG Field Reference
+# Field Reference
 
-Quick reference for TR.* field naming conventions used in LSEG Data Library
-responses.
+Quick reference for field naming conventions used in financial market data,
+particularly as returned by the LSEG Data Library for Python.
 
 ## Common TR.* Fields
+
+TR.* fields are part of the LSEG Data Library (Refinitiv) analytics namespace.
 
 | Field Name       | Type    | Description                              |
 |------------------|---------|------------------------------------------|

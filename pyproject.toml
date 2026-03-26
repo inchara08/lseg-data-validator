@@ -3,9 +3,9 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "lseg-data-validator"
+name = "fin-data-validator"
 version = "0.1.0"
-description = "Data quality toolkit for LSEG Data Library outputs"
+description = "Data quality toolkit for financial market data"
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
@@ -20,7 +20,7 @@ dependencies = [
 ]
 
 [project.scripts]
-lseg-validator = "lseg_validator.cli:app"
+fin-validator = "fin_validator.cli:app"
 
 [project.optional-dependencies]
 dev = [
@@ -31,7 +31,7 @@ dev = [
 ]
 
 [tool.hatch.build.targets.wheel]
-packages = ["lseg_validator"]
+packages = ["fin_validator"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

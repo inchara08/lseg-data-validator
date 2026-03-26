@@ -1,5 +1,5 @@
 """
-lseg_validator.checks.schema_diff — schema drift detection between two DataFrames.
+fin_validator.checks.schema_diff — schema drift detection between two DataFrames.
 
 Compares two DataFrames (e.g. snapshots taken at different times) and reports:
 - Columns added or removed.

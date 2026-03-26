@@ -1,5 +1,5 @@
 """
-lseg_validator.checks.completeness — null-rate and severity checks.
+fin_validator.checks.completeness — null-rate and severity checks.
 
 Public functions
 ----------------

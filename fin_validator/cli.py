@@ -1,5 +1,5 @@
 """
-lseg_validator.cli — typer-based CLI entry point.
+fin_validator.cli — typer-based CLI entry point.
 
 Commands
 --------
@@ -16,8 +16,8 @@ import pandas as pd
 import typer
 
 app = typer.Typer(
-    name="lseg-validator",
-    help="Data quality toolkit for LSEG Data Library outputs.",
+    name="fin-validator",
+    help="Data quality toolkit for financial market data.",
     add_completion=False,
 )
 
@@ -36,7 +36,7 @@ def check(
     zscore: float = typer.Option(3.0, help="Z-score outlier threshold."),
 ) -> None:
     """Run data quality checks on FILE and print a summary."""
-    from lseg_validator import DataQualityReport
+    from fin_validator import DataQualityReport
 
     df = _read(file)
     report = DataQualityReport(df, ric_col=ric_col)
@@ -54,7 +54,7 @@ def diff(
     """Compare two snapshots FILE_A and FILE_B for schema drift."""
     import json
 
-    from lseg_validator.checks.schema_diff import run_all
+    from fin_validator.checks.schema_diff import run_all
 
     df_a = _read(file_a)
     df_b = _read(file_b)
@@ -71,7 +71,7 @@ def report(
     ric_col: str = typer.Option("RIC", help="Name of the RIC column."),
 ) -> None:
     """Generate a standalone HTML quality report for FILE."""
-    from lseg_validator import DataQualityReport
+    from fin_validator import DataQualityReport
 
     df = _read(file)
     rpt = DataQualityReport(df, ric_col=ric_col)

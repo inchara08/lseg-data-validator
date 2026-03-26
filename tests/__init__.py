@@ -1,1 +1,1 @@
-"""Test suite for lseg-data-validator."""
+"""Test suite for fin-data-validator."""

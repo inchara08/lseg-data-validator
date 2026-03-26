@@ -22,8 +22,8 @@ from typer.testing import CliRunner
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from lseg_validator import DataQualityReport
-from lseg_validator.cli import app
+from fin_validator import DataQualityReport
+from fin_validator.cli import app
 from tests.fixtures.generate import make_clean_df, make_dirty_df
 
 FIXTURES = Path(__file__).parent / "fixtures"

@@ -1,8 +1,10 @@
-# lseg-data-validator
+# fin-data-validator
 
-> You pulled data from the LSEG Data Library. Is it actually clean?
+> Is your financial data actually clean?
 
-A free, open-source data quality toolkit for developers using the [LSEG Data Library for Python](https://developers.lseg.com/en/api-catalog/refinitiv-data-platform/refinitiv-data-library-for-python). Point it at any CSV, Parquet file, or pandas DataFrame and get an instant quality report — null rates, type mismatches, anomalies, and schema drift — with no LSEG credentials required.
+A free, open-source data quality toolkit for financial market data. Point it at any CSV, Parquet file, or pandas DataFrame and get an instant quality report — null rates, type mismatches, anomalies, and schema drift.
+
+Works great out of the box with **LSEG Data Library** outputs — TR.* fields, RIC codes, and OHLCV time series are all natively understood.
 
 ---
 
@@ -13,7 +15,7 @@ A free, open-source data quality toolkit for developers using the [LSEG Data Lib
 - **Anomaly detection** — Z-score outliers, IQR outliers, sudden value spikes
 - **Schema drift** — column additions/removals, dtype changes, null rate deltas, value range shifts between two snapshots
 - **Streamlit web UI** — drag-and-drop upload, null heatmap, distribution charts, schema diff side-by-side view, one-click HTML report download
-- **CLI** — `lseg-validator check / diff / report` commands
+- **CLI** — `fin-validator check / diff / report` commands
 - **Python API** — importable `DataQualityReport` class
 
 ---
@@ -24,9 +26,9 @@ A free, open-source data quality toolkit for developers using the [LSEG Data Lib
 pip install -e .
 
 # CLI
-lseg-validator check data.csv
-lseg-validator diff snapshot_jan.csv snapshot_feb.csv
-lseg-validator report data.csv --output report.html
+fin-validator check data.csv
+fin-validator diff snapshot_jan.csv snapshot_feb.csv
+fin-validator report data.csv --output report.html
 
 # Web UI
 streamlit run app/streamlit_app.py
@@ -36,7 +38,7 @@ streamlit run app/streamlit_app.py
 
 ```python
 import pandas as pd
-from lseg_validator import DataQualityReport
+from fin_validator import DataQualityReport
 
 df = pd.read_csv("data.csv")
 report = DataQualityReport(df)
@@ -53,7 +55,7 @@ report.to_json()       # JSON string
 
 ```
 Dataset: 250 rows × 16 columns
-RIC column: AAPL.O   Timestamp: Date   TR. fields: TR.PriceClose, TR.Volume, TR.EPS ...
+RIC column: AAPL.O   Timestamp: Date
 
 Completeness
   BID            15.2%  ▶ medium
@@ -73,22 +75,23 @@ Anomalies
 
 ## Works with
 
-Any DataFrame returned by the LSEG Data Library, including:
+Any DataFrame containing financial market data, including:
 
 - `lseg.data.get_history()` — daily OHLCV time series
 - `lseg.data.get_data()` — cross-sectional fundamentals
 - Eikon Data API responses
 - CSV / Parquet exports from LSEG Workspace, CodeBook, or RDP
+- Any tabular financial data with a RIC or ticker column
 
-Field naming conventions supported: `TR.*`, `CF_*`, `TRDPRC_1`, `OPEN_PRC`, `HIGH_1`, `LOW_1`, `ACVOL_UNS`, `BID`, `ASK`.
+Field naming conventions natively supported: `TR.*`, `CF_*`, `TRDPRC_1`, `OPEN_PRC`, `HIGH_1`, `LOW_1`, `ACVOL_UNS`, `BID`, `ASK`.
 
 ---
 
 ## Project structure
 
 ```
-lseg-data-validator/
-├── lseg_validator/
+fin-data-validator/
+├── fin_validator/
 │   ├── checks/
 │   │   ├── completeness.py
 │   │   ├── consistency.py
@@ -101,9 +104,9 @@ lseg-data-validator/
 ├── app/
 │   └── streamlit_app.py
 ├── tests/
-│   └── fixtures/          # synthetic LSEG-shaped CSVs (no credentials needed)
+│   └── fixtures/          # synthetic financial CSVs
 └── docs/
-    └── lseg-field-reference.md
+    └── field-reference.md
 ```
 
 ---

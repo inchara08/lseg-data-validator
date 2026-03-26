@@ -1,5 +1,5 @@
 """
-tests/test_anomaly.py — tests for lseg_validator.checks.anomaly.
+tests/test_anomaly.py — tests for fin_validator.checks.anomaly.
 
 Covers:
 - zscore_outliers  (known injected outliers in dirty fixture)
@@ -19,7 +19,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from lseg_validator.checks.anomaly import (
+from fin_validator.checks.anomaly import (
     iqr_outliers,
     run_all,
     spike_rows,
